@@ -1,0 +1,13 @@
+.terraform.lock.hcl
+.terraform/terraform.tfstate
+.terraform/modules/modules.json
+.terraform/providers/registry.terraform.io/hashicorp/aws/4.6.0/windows_amd64/terraform-provider-aws_v4.6.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/cloudinit/2.2.0/windows_amd64/terraform-provider-cloudinit_v2.2.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/kubernetes/2.9.0/windows_amd64/terraform-provider-kubernetes_v2.9.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/local/2.1.0/windows_amd64/terraform-provider-local_v2.1.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/null/3.1.0/windows_amd64/terraform-provider-null_v3.1.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/random/3.1.0/windows_amd64/terraform-provider-random_v3.1.0_x5.exe
+.terraform/providers/registry.terraform.io/terraform-aws-modules/http/2.4.1/windows_amd64/CHANGELOG.md
+.terraform/providers/registry.terraform.io/terraform-aws-modules/http/2.4.1/windows_amd64/LICENSE
+.terraform/providers/registry.terraform.io/terraform-aws-modules/http/2.4.1/windows_amd64/terraform-provider-http_v2.4.1.exe
+

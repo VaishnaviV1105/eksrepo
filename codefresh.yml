@@ -1,0 +1,84 @@
+version: "1.0"
+stages:
+  - "clone"
+  - "prepare"
+  - "plan"
+  - "approval for apply"
+  - "deploy"
+  - "approval for destroy"
+  - "destroy"
+
+steps:
+  clone:
+    title: "Cloning repository"
+    type: "git-clone"
+    repo: "VaishnaviV1105/eksrepo"
+    # CF_BRANCH value is auto set when pipeline is triggered
+    # Learn more at codefresh.io/docs/docs/codefresh-yaml/variables/
+    revision: "${{CF_BRANCH}}"
+    git: "github"
+    stage: "clone"
+
+  SetupAuth:
+    image: alpine:3.9
+    title: Setting up aws auth
+    stage: prepare
+    commands:
+      - cf_export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - cf_export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
+  plan:
+    title: Terraform Plan
+    type: freestyle
+    working_directory: './eksrepo'
+    arguments:
+      image: 'hashicorp/terraform'
+      commands:
+        - terraform init
+        - terraform validate
+        - terraform plan
+    stage: plan
+
+  askForPermissionForApply:
+   type: pending-approval
+   title: Terraform apply ?
+   stage: approval for apply
+
+  deploy:
+    title: Terraform Apply
+    type: freestyle
+    working_directory: './eksrepo'
+    arguments:
+      image: 'hashicorp/terraform'
+      commands:
+        - terraform init
+        - terraform apply -auto-approve
+      when:
+        steps:
+          - name: askForPermissionForApply
+            on:
+             - approved
+
+    stage: "deploy"
+
+  askForPermissionForDestroy:
+   type: pending-approval
+   title: Terraform Destroy ?
+   stage: approval for destroy
+
+  destroy:
+    title: Terraform Destroy
+    type: freestyle
+    working_directory: './eksrepo'
+    arguments:
+      image: 'hashicorp/terraform'
+      commands:
+        - terraform init
+        - terraform destroy -auto-approve
+      when:
+        steps:
+          - name: askForPermissionForDestroy
+            on:
+             - approved
+
+    stage: "destroy"
