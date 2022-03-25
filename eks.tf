@@ -7,11 +7,15 @@ module "eks" {
 
   vpc_id = module.vpc.vpc_id
 
+  workers_group_defaults = {
+    root_volume_type = "gp2"
+  }
+
   worker_groups = [
     {
       name                          = "worker-group-1"
       instance_type                 = "t2.small"
-      additional_userdata           = "echo myworker1"
+      additional_userdata           = "echo foo bar"
       additional_security_group_ids = [aws_security_group.worker_group_1.id]
       asg_desired_capacity          = 2
     },
@@ -28,6 +32,7 @@ module "eks" {
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
 }
+
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
